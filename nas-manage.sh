@@ -94,14 +94,11 @@ nas_datasets(){
 # ---------------- Recycle Bin Cleanup ------------------------------------------
 find_homes_user_recycle_bins(){
   load_state
-
-  ct "
-    find '$MP_IN/homes' \
-      -mindepth 4 -maxdepth 4 \
-      -type d \
-      -path '*/.recycle/*' \
-      2>/dev/null
-  "
+  local p r
+  p="$(ct "awk 'BEGIN{i=0} /^[[:space:]]*\\[homes\\]$/{i=1;next} i&&/^\\[/{exit} i&&/^\\s*path\\s*=/{sub(/^[^=]*=/,\"\");print;exit}' '$SMB_CONF'")"
+  [[ -n "$p" ]] || p="$(ct "[[ -d '$MP_IN/homes' ]] && echo '$MP_IN/homes' || echo '$MP_IN'")"
+  r="${p//%U/}"; r="${r%/}"
+  ct "find '$r' -type d -path '*/.recycle/*' 2>/dev/null"
 }
 
 # ---------------- INFO ---------------------------------------------------------
@@ -229,25 +226,13 @@ cmd_snapshot(){
   esac
 }
 
-# ---------------- RECYCLE BIN CLEANUP --------------------------------------
+# ---------------- RECYCLE BIN CLEANUP -----------------------------------------
 cmd_recycle(){
-  local bins
-  bins="$(find_homes_user_recycle_bins)"
-
-  [[ -z "$bins" ]] && return 0
-
-  echo "$bins" | while read -r d; do
-    [[ -z "$d" ]] && continue
-
-    # HARD SAFETY: enforce .recycle/<user>
+  local d
+  find_homes_user_recycle_bins | while read -r d; do
     [[ "$(basename "$(dirname "$d")")" == ".recycle" ]] || continue
-
-    ct "
-      find -P '$d' \
-        -mindepth 1 -maxdepth 1 -xdev \
-        \\( -type f -o -type d -o -type l \\) \
-        -exec rm -rf -- {} +
-    "
+    warn "Emptying: $d"
+    ct "find -P '$d' -mindepth 1 -xdev -delete"
   done
 }
 
