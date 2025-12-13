@@ -17,7 +17,7 @@ A miniature LXC NAS system tested on unprivileged `Debian 12` container using `P
 ## TODO
 - ~~Management Script for backups and snapshots~~
 - Basic admin web panel
-- Recycle bin clean-up service
+- ~~Recycle bin clean-up service~~
 
 ## Table of Contents
 - [How Access Works](#how-access-works)
@@ -98,6 +98,24 @@ chmod +x nas
 
 # Run setup script
 ./nas
+```
+
+### Recycle Bin flush
+The job runs `./nas-manage <CTID> recycle flush` on the Proxmox host automatically, and if the container no longer exists, the cron entry removes itself automatically.
+
+#### Every X minutes
+```bash
+MINUTES=15; CTID=103; (crontab -l 2>/dev/null | grep -v "nas-manage $CTID recycle flush"; echo "*/$MINUTES * * * * pct status $CTID >/dev/null 2>&1 && /root/nas-manage $CTID recycle flush >/dev/null 2>&1 || crontab -l | grep -v 'nas-manage $CTID recycle flush' | crontab -") | crontab -
+```
+
+#### Every X hours
+```bash
+HOURS=6; CTID=103; (crontab -l 2>/dev/null | grep -v "nas-manage $CTID recycle flush"; echo "0 */$HOURS * * * pct status $CTID >/dev/null 2>&1 && /root/nas-manage $CTID recycle flush >/dev/null 2>&1 || crontab -l | grep -v 'nas-manage $CTID recycle flush' | crontab -") | crontab -
+```
+
+#### Every X days
+```bash
+DAYS=3; CTID=103; (crontab -l 2>/dev/null | grep -v "nas-manage $CTID recycle flush"; echo "0 0 */$DAYS * * pct status $CTID >/dev/null 2>&1 && /root/nas-manage $CTID recycle flush >/dev/null 2>&1 || crontab -l | grep -v 'nas-manage $CTID recycle flush' | crontab -") | crontab -
 ```
 
 ## Monolithic/Single Dataset Design
