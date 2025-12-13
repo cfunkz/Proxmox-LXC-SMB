@@ -17,6 +17,7 @@
 #       quotas, users, enable/disable shares, recycle, allowed subnets, workgroup.
 #
 # Run on Proxmox host as root.
+# Version: 2025-12-13
 
 set -Eeuo pipefail
 
