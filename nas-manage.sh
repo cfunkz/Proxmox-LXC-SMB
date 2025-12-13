@@ -91,6 +91,18 @@ nas_datasets(){
   fi
 }
 
+find_homes_user_recycle_bins(){
+  load_state
+
+  ct "
+    find '$MP_IN/homes' \
+      -mindepth 4 -maxdepth 4 \
+      -type d \
+      -path '*/.recycle/*' \
+      2>/dev/null
+  "
+}
+
 # ---------------- INFO ---------------------------------------------------------
 cmd_info(){
   load_state
@@ -216,10 +228,32 @@ cmd_snapshot(){
   esac
 }
 
-# ---------------- Dispatch -----------------------------------------------------
+cmd_recycle(){
+  local bins
+  bins="$(find_homes_user_recycle_bins)"
+
+  [[ -z "$bins" ]] && return 0
+
+  echo "$bins" | while read -r d; do
+    [[ -z "$d" ]] && continue
+
+    # HARD SAFETY: enforce .recycle/<user>
+    [[ "$(basename "$(dirname "$d")")" == ".recycle" ]] || continue
+
+    ct "
+      find -P '$d' \
+        -mindepth 1 -maxdepth 1 -xdev \
+        \\( -type f -o -type d -o -type l \\) \
+        -exec rm -rf -- {} +
+    "
+  done
+}
+
+
 case "$CMD" in
   info)     cmd_info ;;
   smb)      cmd_smb "$@" ;;
   snapshot) cmd_snapshot "$@" ;;
+  recycle)  cmd_recycle "$@" ;;
   *)        die "Unknown command" ;;
 esac
