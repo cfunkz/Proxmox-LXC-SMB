@@ -70,9 +70,9 @@ A miniature LXC NAS system tested on unprivileged `Debian 12` container using `P
 > NOTE: From ROOT HOST -> `./nas-manage <CTID> <command>`
 ```bash
 # Commands:
-#   info      : layout, users, quotas (from /etc/nas/state.env)
-#   smb       : backup | list | restore [file]
-#   snapshot  : create | list | rollback <tag> | remove <tag>
+#   info      : layout, users, quotas (from /etc/nas/state.env)   # Information
+#   smb       : backup | list | restore [file]                    # Config file backup
+#   snapshot  : create | list | rollback <tag> | remove <tag>     # Snapshot management
 ```
 
 ### Limitations
