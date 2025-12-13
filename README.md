@@ -106,19 +106,28 @@ The job runs `./nas-manage <CTID> recycle flush` on the Proxmox host automatical
 #### Every X minutes
 
 ```bash
-MINUTES=15; CTID=103; (crontab -l 2>/dev/null | grep -v "nas-manage $CTID recycle flush"; echo "*/$MINUTES * * * * pct status $CTID >/dev/null 2>&1 && /root/nas-manage $CTID recycle flush >/dev/null 2>&1 || crontab -l | grep -v 'nas-manage $CTID recycle flush' | crontab -") | crontab -
+CTID=103; MINUTES=15; \
+( crontab -l 2>/dev/null | sed "/nas-manage $CTID recycle flush/d"; \
+  echo "*/$MINUTES * * * * cd /root && ./nas-manage $CTID recycle flush >/dev/null 2>&1" \
+) | crontab -
 ```
 
 #### Every X hours
 
 ```bash
-HOURS=6; CTID=103; (crontab -l 2>/dev/null | grep -v "nas-manage $CTID recycle flush"; echo "0 */$HOURS * * * pct status $CTID >/dev/null 2>&1 && /root/nas-manage $CTID recycle flush >/dev/null 2>&1 || crontab -l | grep -v 'nas-manage $CTID recycle flush' | crontab -") | crontab -
+CTID=103; HOURS=6; \
+( crontab -l 2>/dev/null | sed "/nas-manage $CTID recycle flush/d"; \
+  echo "0 */$HOURS * * * cd /root && ./nas-manage $CTID recycle flush >/dev/null 2>&1" \
+) | crontab -
 ```
 
 #### Every X days
 
 ```bash
-DAYS=3; CTID=103; (crontab -l 2>/dev/null | grep -v "nas-manage $CTID recycle flush"; echo "0 0 */$DAYS * * pct status $CTID >/dev/null 2>&1 && /root/nas-manage $CTID recycle flush >/dev/null 2>&1 || crontab -l | grep -v 'nas-manage $CTID recycle flush' | crontab -") | crontab -
+CTID=103; DAYS=3; \
+( crontab -l 2>/dev/null | sed "/nas-manage $CTID recycle flush/d"; \
+  echo "0 0 */$DAYS * * cd /root && ./nas-manage $CTID recycle flush >/dev/null 2>&1" \
+) | crontab -
 ```
 
 ## Monolithic/Single Dataset Design
