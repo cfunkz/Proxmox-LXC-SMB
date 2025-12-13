@@ -118,30 +118,28 @@ chmod +x nas
 
 ## Individual Datasets mounted to the LXC
 ### Installation
-#### Select Storage Method
-<img width="667" height="137" alt="image" src="https://github.com/user-attachments/assets/d1978c56-6d35-4562-aa37-961cae671ca8" />
-
-#### Select the container with `Debian 12`, set the mount point
-<img width="504" height="261" alt="image" src="https://github.com/user-attachments/assets/485d656b-caa3-48d9-a9dc-ce5c1af5847a" />
+#### Select `Debian 12` Container, Mount Point, Storage Method
+<img width="735" height="401" alt="image" src="https://github.com/user-attachments/assets/b0df7d43-4462-4bc6-aff6-752afd71087c" />
 
 #### Select the ZFS pool
-<img width="883" height="99" alt="image" src="https://github.com/user-attachments/assets/4ac4355c-032b-4620-aedf-806b4a174d47" />
+<img width="979" height="113" alt="image" src="https://github.com/user-attachments/assets/20b9d71e-fb60-4f24-b6e2-5766360491ed" />
 
 #### Create new or select pre-allocated ZFS dataset
-<img width="753" height="320" alt="image" src="https://github.com/user-attachments/assets/84ad4ff4-d69b-430c-984f-1dd03e20414a" />
+<img width="840" height="354" alt="image" src="https://github.com/user-attachments/assets/2bae87db-88d7-4a3b-bf22-92354a51152b" />
 
 #### Select the shares you want to have
-<img width="727" height="221" alt="image" src="https://github.com/user-attachments/assets/bbab7de3-34f1-4d90-92a7-da9a2e3801b5" />
+<img width="943" height="241" alt="image" src="https://github.com/user-attachments/assets/92f18383-f7c8-422b-b8e9-d11b88420134" />
 
-#### Set Storage Quotas for shares
-<img width="649" height="219" alt="image" src="https://github.com/user-attachments/assets/dcde5e8f-9dd6-4858-a44f-fa7c49ac174d" />
+#### Set Storage quota and reservation for shares
+<img width="670" height="244" alt="image" src="https://github.com/user-attachments/assets/d2e632ac-4501-4ed1-82d7-59f4a8d2a24b" />
 
 #### Set allowed Samba subnets, set the "WORKGROUP", and optionally enable the recycle bin
-<img width="695" height="81" alt="image" src="https://github.com/user-attachments/assets/7249402b-b6db-4412-8c3e-d1995f1ae9a7" />
+<img width="766" height="90" alt="image" src="https://github.com/user-attachments/assets/cb059ec8-ad61-416a-956e-e7800590a62f" />
 
-#### Add your users, privileges and quotas
-<img width="728" height="258" alt="image" src="https://github.com/user-attachments/assets/e1f10228-8605-4907-8e79-e38988b1212c" />
+#### Add/Edit your users, privileges and user quotas
+<img width="740" height="288" alt="image" src="https://github.com/user-attachments/assets/3e87423f-d155-4d5d-b39e-126f0d1f3b6a" />
+<img width="704" height="583" alt="image" src="https://github.com/user-attachments/assets/e587a3f6-2409-4291-88d6-0c8f1a01a264" />
 
 #### Successful Install
-<img width="1067" height="563" alt="image" src="https://github.com/user-attachments/assets/b7da3a01-ddae-4814-8154-85e3f04b09ab" />
-<img width="810" height="204" alt="image" src="https://github.com/user-attachments/assets/dbda6019-929a-4f0e-81f7-5b5890a1d5ad" />
+<img width="1001" height="676" alt="image" src="https://github.com/user-attachments/assets/5884eb2a-a8ec-4640-907f-b7b9993b96e0" />
+<img width="833" height="245" alt="image" src="https://github.com/user-attachments/assets/c23495e3-45ce-41b8-9897-d3358c96bb3a" />
