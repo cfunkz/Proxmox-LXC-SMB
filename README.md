@@ -67,7 +67,7 @@ A miniature LXC NAS system tested on unprivileged `Debian 12` container using `P
 -  Backup and snapshot management script `nas-manage.sh` can be run via `./nas-manage <CTID> <command>` .
 
 **Management Commnands**
-> NOTE: `./nas-manage <CTID> <command>`
+> NOTE: From ROOT HOST -> `./nas-manage <CTID> <command>`
 ```bash
 # Commands:
 #   info      : layout, users, quotas (from /etc/nas/state.env)
