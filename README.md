@@ -66,11 +66,6 @@ A miniature LXC NAS system tested on unprivileged `Debian 12` container using `P
 - `nas.sh` script re-runnable modifying quotas, creating users, changing passwords.
 -  Backup and snapshot management script `nas-manage.sh` can be run via `./nas-manage <CTID> <command>` .
 
-<img width="561" height="143" alt="image" src="https://github.com/user-attachments/assets/7426c1b1-ef81-4a39-8ecc-aa290f7bff35" />
-
-<img width="529" height="703" alt="image" src="https://github.com/user-attachments/assets/dd10577c-176f-4309-a61a-7603fe834c16" />
-
-
 ### Limitations
 - Samba authentication is local-only (no AD/LDAP).
 - Samba admins are effectively trusted users.
@@ -98,30 +93,27 @@ chmod +x nas
 
 ## Monolithic/Single Dataset Design
 ### Installation
-#### Select Storage Method
-<img width="678" height="139" alt="image" src="https://github.com/user-attachments/assets/f06c68f7-c0bc-4fc6-8735-e73740d46050" />
-
-#### Select the container & container mount point
-<img width="501" height="220" alt="image" src="https://github.com/user-attachments/assets/aa4e9c0f-990d-478c-a968-aea1eb20e9c1" />
+#### Select Container, Container Mount Point, Storage Method
+<img width="679" height="341" alt="image" src="https://github.com/user-attachments/assets/7fa02944-95bb-4095-b3c5-b12b090e3e48" />
 
 #### Select ZFS pool
-<img width="876" height="121" alt="image" src="https://github.com/user-attachments/assets/4cd2cada-acc8-44c8-92c7-9c9f393ca3a1" />
+<img width="898" height="107" alt="image" src="https://github.com/user-attachments/assets/5f000816-a5ea-4f7a-94a0-8ebe549e88a5" />
 
 #### Select existing or create **new** dataset for the monolithic method
-<img width="750" height="280" alt="image" src="https://github.com/user-attachments/assets/358ac90c-2dba-49c4-a8f8-d9bfc8ef0499" />
+<img width="760" height="283" alt="image" src="https://github.com/user-attachments/assets/4cc373ec-d6ff-4c71-89ae-751870188eee" />
 
 #### Select the shares that you want and ZFS dataset quota
-<img width="722" height="139" alt="image" src="https://github.com/user-attachments/assets/47a69750-54c8-4e33-9496-fe93006b4550" />
+<img width="753" height="204" alt="image" src="https://github.com/user-attachments/assets/83b05b91-f277-4d46-9b14-869c062790f1" />
 
-#### Select allowed IP range enforced by Samba, WORKGROUP
-<img width="692" height="62" alt="image" src="https://github.com/user-attachments/assets/2c023100-2eb8-42c1-ad04-6c4195ea1995" />
+#### Select allowed subnets enforced by Samba, WORKGROUP and optional recycle bin
+<img width="693" height="61" alt="image" src="https://github.com/user-attachments/assets/1dfd7250-bd08-4f47-9de1-ef77a7a0891c" />
 
 #### Add the initial users with permissions
-<img width="558" height="122" alt="image" src="https://github.com/user-attachments/assets/dbd71850-902f-4782-8c8b-daec524a8b83" />
+<img width="570" height="179" alt="image" src="https://github.com/user-attachments/assets/f9342ed4-8544-48e7-849e-434e1a1065d4" />
 
 #### Complete
-<img width="507" height="679" alt="image" src="https://github.com/user-attachments/assets/b3656a27-7ab4-488b-9ebc-c8129a77c0cf" />
-<img width="651" height="83" alt="image" src="https://github.com/user-attachments/assets/fb90f786-3795-468b-b187-433cb5e3b83f" />
+<img width="931" height="594" alt="image" src="https://github.com/user-attachments/assets/febbd808-c110-4e7b-962d-fc8eefbfea02" />
+<img width="609" height="65" alt="image" src="https://github.com/user-attachments/assets/bfa37bd3-3aa0-4cd9-bf58-b42911357720" />
 
 
 ## Individual Datasets mounted to the LXC
