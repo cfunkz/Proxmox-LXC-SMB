@@ -66,6 +66,15 @@ A miniature LXC NAS system tested on unprivileged `Debian 12` container using `P
 - `nas.sh` script re-runnable modifying quotas, creating users, changing passwords.
 -  Backup and snapshot management script `nas-manage.sh` can be run via `./nas-manage <CTID> <command>` .
 
+**Management Commnands**
+> NOTE: `./nas-manage <CTID> <command>`
+```bash
+# Commands:
+#   info      : layout, users, quotas (from /etc/nas/state.env)
+#   smb       : backup | list | restore [file]
+#   snapshot  : create | list | rollback <tag> | remove <tag>
+```
+
 ### Limitations
 - Samba authentication is local-only (no AD/LDAP).
 - Samba admins are effectively trusted users.
