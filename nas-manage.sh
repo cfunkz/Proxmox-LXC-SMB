@@ -91,6 +91,7 @@ nas_datasets(){
   fi
 }
 
+# ---------------- Recycle Bin Cleanup ------------------------------------------
 find_homes_user_recycle_bins(){
   load_state
 
@@ -228,6 +229,7 @@ cmd_snapshot(){
   esac
 }
 
+# ---------------- RECYCLE BIN CLEANUP --------------------------------------
 cmd_recycle(){
   local bins
   bins="$(find_homes_user_recycle_bins)"
@@ -248,7 +250,6 @@ cmd_recycle(){
     "
   done
 }
-
 
 case "$CMD" in
   info)     cmd_info ;;
