@@ -2,11 +2,11 @@
 A miniature LXC NAS system tested on unprivileged `Debian 12` container using `Proxmox VE 9.1.2`. Designed for homelabs and small trusted environments.
 
 ---
-<img width="1919" height="640" alt="image" src="https://github.com/user-attachments/assets/0a1cc889-8fc7-47ef-b2b4-60fbdd465e43" />
-<img width="1919" height="666" alt="image" src="https://github.com/user-attachments/assets/d967d906-02c7-493d-a281-5d1b873fc23e" />
+<img width="1919" height="645" alt="image" src="https://github.com/user-attachments/assets/541d7196-9bba-4ccf-ba9d-8b5adf6fb543" />
+<img width="1919" height="632" alt="image" src="https://github.com/user-attachments/assets/5ab0573b-9afa-475d-9a68-f8d31ca3ef14" />
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/1a51d254-a909-4480-a439-3a842e3ee657" width="400">
-  <img src="https://github.com/user-attachments/assets/995c4831-3631-403f-878f-59dc16aee643" width="400">
+  <img src="https://github.com/user-attachments/assets/f9d7c14b-e48b-49ce-9024-c1915a918824" width="400"/>
+  <img src="https://github.com/user-attachments/assets/0c0f6b88-25d2-4e50-a471-7bbe57957e05" width="400" />
 </p>
 
 > ⚠️ Disclaimer  
