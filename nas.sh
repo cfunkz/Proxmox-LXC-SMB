@@ -569,8 +569,8 @@ write_smb_conf() {
    server max protocol = SMB3_11
    client max protocol = SMB3_11
 
-   # Signing
-   server signing = mandatory
+   # Signing disabled for lan
+   server signing = disabled
 
    # ACL / xattr
    vfs objects = acl_xattr
