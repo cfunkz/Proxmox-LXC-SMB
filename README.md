@@ -103,31 +103,27 @@ chmod +x nas
 ### Recycle Bin flush
 The job runs `./nas-manage <CTID> recycle flush` on the Proxmox host automatically, and if the container no longer exists, the cron entry removes itself automatically.
 
-#### Every X minutes
+#### Every 30 minutes
 
 ```bash
-CTID=103; MINUTES=15; \
-( crontab -l 2>/dev/null | sed "/nas-manage $CTID recycle flush/d"; \
-  echo "*/$MINUTES * * * * cd /root && ./nas-manage $CTID recycle flush >/dev/null 2>&1" \
-) | crontab -
+printf "*/30 * * * * root bash -lc '/root/nas-manage 103 recycle flush' >> /var/log/nas-recycle.log 2>&1\n" > /etc/cron.d/nas-recycle
 ```
 
-#### Every X hours
+#### Every 6 hours
 
 ```bash
-CTID=103; HOURS=6; \
-( crontab -l 2>/dev/null | sed "/nas-manage $CTID recycle flush/d"; \
-  echo "0 */$HOURS * * * cd /root && ./nas-manage $CTID recycle flush >/dev/null 2>&1" \
-) | crontab -
+printf "0 */6 * * * root bash -lc '/root/nas-manage 103 recycle flush' >> /var/log/nas-recycle.log 2>&1\n" > /etc/cron.d/nas-recycle
 ```
 
-#### Every X days
+#### Every 1 day
 
 ```bash
-CTID=103; DAYS=3; \
-( crontab -l 2>/dev/null | sed "/nas-manage $CTID recycle flush/d"; \
-  echo "0 0 */$DAYS * * cd /root && ./nas-manage $CTID recycle flush >/dev/null 2>&1" \
-) | crontab -
+printf "0 0 */1 * * root bash -lc '/root/nas-manage 103 recycle flush' >> /var/log/nas-recycle.log 2>&1\n" > /etc/cron.d/nas-recycle
+```
+
+#### Every 7 Days
+```bash
+printf "0 0 */7 * * root bash -lc '/root/nas-manage 103 recycle flush' >> /var/log/nas-recycle.log 2>&1\n" > /etc/cron.d/nas-recycle
 ```
 
 ## Monolithic/Single Dataset Design
