@@ -9,7 +9,7 @@ set -Eeuo pipefail
 #   smb       : backup | list | restore [file]
 #   snapshot  : create | list | rollback <tag> | remove <tag>
 #
-# Version: 2025-12-14
+# Version: 2025-12-13
 # ==============================================================================
 
 # ---------------- UI -----------------------------------------------------------
@@ -235,6 +235,7 @@ cmd_snapshot(){
     *) die "snapshot {create|list|rollback <tag>|remove <tag>}" ;;
   esac
 }
+
 # ---------------- RECYCLE BIN CLEANUP -----------------------------------------
 cmd_recycle(){
   local sub="${1:-}"
@@ -258,18 +259,20 @@ cmd_recycle(){
 
       say "Installing recycle flush cron in CT $CTID ($timer)"
 
-      # install cleanup script inside container
       ct "cat > /root/nas-recycle-cron.sh << 'EOF'
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
 STATE_FILE=\"/etc/nas/state.env\"
 SMB_CONF=\"/etc/samba/smb.conf\"
-MP_IN=\"/srv/nas\"
 
 [[ -f \"\$STATE_FILE\" ]] || exit 0
+# shellcheck disable=SC1090
 source \"\$STATE_FILE\"
 
+[[ -n \"\${MP_IN:-}\" ]] || exit 0
+
+# Try samba homes path first
 homes_path=\"\$(
   awk '
     BEGIN{i=0}
@@ -279,7 +282,9 @@ homes_path=\"\$(
   ' \"\$SMB_CONF\"
 )\"
 
-[[ -n \"\$homes_path\" ]] || homes_path=\"\$MP_IN/homes\"
+# If not defined (MODE=1), fall back to MP_IN
+[[ -n \"\$homes_path\" ]] || homes_path=\"\$MP_IN\"
+
 homes_path=\"\${homes_path//%U/}\"
 homes_path=\"\${homes_path%/}\"
 
@@ -292,8 +297,8 @@ EOF"
 
       ct "chmod +x /root/nas-recycle-cron.sh"
 
-      # install cron inside container
-      ct "printf '%s root /root/nas-recycle-cron.sh >> /var/log/nas-recycle.log 2>&1\n' '$cron' > /etc/cron.d/nas-recycle"
+      ct "printf '%s root /root/nas-recycle-cron.sh >> /var/log/nas-recycle.log 2>&1\n' \
+        '$cron' > /etc/cron.d/nas-recycle"
 
       say "Recycle flush scheduled: $cron"
       ;;
@@ -309,7 +314,7 @@ EOF"
       ;;
 
     *)
-      die "Usage: recycle [timer <Nm|Nh|Nd|off>]"
+      die "Usage: recycle [flush|timer <Nm|Nh|Nd|off>]"
       ;;
   esac
 }
