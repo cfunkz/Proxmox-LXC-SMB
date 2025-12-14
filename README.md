@@ -108,6 +108,11 @@ Run management command `./nas-manage <CTID> recycle timer <d/h/m>` to add automa
 ./nas-manage 103 recycle timer 4h
 ```
 
+```bash
+# Run this to clean recycle bins manually
+./nas-manage 103 recycle flush
+```
+
 ## Monolithic/Single Dataset Design
 ### Installation
 #### Select Container, Container Mount Point, Storage Method
