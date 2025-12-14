@@ -101,7 +101,7 @@ chmod +x nas
 ./nas
 ```
 
-### Recycle Bin flush
+### Recycle Bin flush (OFF by default)
 Run management command `./nas-manage <CTID> recycle timer <d/h/m>` to add automatic flush timer within the LXC container.
 
 ```bash
