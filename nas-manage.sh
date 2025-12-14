@@ -101,6 +101,16 @@ find_homes_user_recycle_bins(){
   ct "find '$r' -type d -path '*/.recycle/*' 2>/dev/null"
 }
 
+parse_timer(){
+  local t="$1"
+  case "$t" in
+    *m) echo "*/${t%m} * * * *" ;;
+    *h) echo "0 */${t%h} * * *" ;;
+    *d) echo "0 0 */${t%d} *" ;;
+    *) die "Invalid timer format (use Nm|Nh|Nd)" ;;
+  esac
+}
+
 # ---------------- INFO ---------------------------------------------------------
 cmd_info(){
   load_state
@@ -225,15 +235,83 @@ cmd_snapshot(){
     *) die "snapshot {create|list|rollback <tag>|remove <tag>}" ;;
   esac
 }
-
 # ---------------- RECYCLE BIN CLEANUP -----------------------------------------
 cmd_recycle(){
-  local d
-  find_homes_user_recycle_bins | while read -r d; do
-    [[ "$(basename "$(dirname "$d")")" == ".recycle" ]] || continue
-    warn "Emptying: $d"
-    ct "find -P '$d' -mindepth 1 -xdev -delete"
-  done
+  local sub="${1:-}"
+
+  case "$sub" in
+    timer)
+      local timer="${2:-}"
+      [[ -n "$timer" ]] || die "Usage: recycle timer <Nm|Nh|Nd|off>"
+
+      # ---------------- OFF ----------------
+      if [[ "$timer" == "off" ]]; then
+        say "Disabling recycle flush cron in CT $CTID"
+        ct "rm -f /etc/cron.d/nas-recycle /root/nas-recycle-cron.sh"
+        say "Recycle flush disabled"
+        return 0
+      fi
+
+      # ---------------- ON -----------------
+      local cron
+      cron="$(parse_timer "$timer")"
+
+      say "Installing recycle flush cron in CT $CTID ($timer)"
+
+      # install cleanup script inside container
+      ct "cat > /root/nas-recycle-cron.sh << 'EOF'
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+STATE_FILE=\"/etc/nas/state.env\"
+SMB_CONF=\"/etc/samba/smb.conf\"
+MP_IN=\"/srv/nas\"
+
+[[ -f \"\$STATE_FILE\" ]] || exit 0
+source \"\$STATE_FILE\"
+
+homes_path=\"\$(
+  awk '
+    BEGIN{i=0}
+    /^[[:space:]]*\\[homes\\]$/{i=1;next}
+    i && /^\\[/{exit}
+    i && /^\\s*path\\s*=/{sub(/^[^=]*=/,\"\");print;exit}
+  ' \"\$SMB_CONF\"
+)\"
+
+[[ -n \"\$homes_path\" ]] || homes_path=\"\$MP_IN/homes\"
+homes_path=\"\${homes_path//%U/}\"
+homes_path=\"\${homes_path%/}\"
+
+find \"\$homes_path\" -type d -path '*/.recycle/*' 2>/dev/null |
+while read -r d; do
+  [[ \"\$(basename \"\$(dirname \"\$d\")\")\" == \".recycle\" ]] || continue
+  find -P \"\$d\" -mindepth 1 -xdev -delete
+done
+EOF"
+
+      ct "chmod +x /root/nas-recycle-cron.sh"
+
+      # install cron inside container
+      ct "printf '%s root /root/nas-recycle-cron.sh >> /var/log/nas-recycle.log 2>&1\n' '$cron' > /etc/cron.d/nas-recycle"
+
+      say "Recycle flush scheduled: $cron"
+      ;;
+
+    "" )
+      # immediate one-off cleanup
+      local d
+      find_homes_user_recycle_bins | while read -r d; do
+        [[ "$(basename "$(dirname "$d")")" == ".recycle" ]] || continue
+        warn "Emptying: $d"
+        ct "find -P '$d' -mindepth 1 -xdev -delete"
+      done
+      ;;
+
+    *)
+      die "Usage: recycle [timer <Nm|Nh|Nd|off>]"
+      ;;
+  esac
 }
 
 case "$CMD" in
