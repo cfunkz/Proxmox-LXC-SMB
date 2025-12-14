@@ -106,24 +106,24 @@ The job runs `./nas-manage <CTID> recycle flush` on the Proxmox host automatical
 #### Every 30 minutes
 
 ```bash
-printf "*/30 * * * * root bash -lc 'u=\$(cut -d. -f1 /proc/uptime); (( u < 1800 )) && exit 0; if pct status 103 >/dev/null 2>&1; then /root/nas-manage 103 recycle flush; else rm -f /etc/cron.d/nas-recycle; fi' >> /var/log/nas-recycle.log 2>&1\n" > /etc/cron.d/nas-recycle
+CTID=103; printf "*/30 * * * * root bash -lc 'u=\$(cut -d. -f1 /proc/uptime); (( u < 1800 )) && exit 0; if pct status %s >/dev/null 2>&1; then /root/nas-manage %s recycle flush; else rm -f /etc/cron.d/nas-recycle; fi' >> /var/log/nas-recycle.log 2>&1\n" "$CTID" "$CTID" > /etc/cron.d/nas-recycle
 ```
 
 #### Every 6 hours
 
 ```bash
-printf "0 */6 * * * root bash -lc 'u=\$(cut -d. -f1 /proc/uptime); (( u < 1800 )) && exit 0; if pct status 103 >/dev/null 2>&1; then /root/nas-manage 103 recycle flush; else rm -f /etc/cron.d/nas-recycle; fi' >> /var/log/nas-recycle.log 2>&1\n" > /etc/cron.d/nas-recycle
+CTID=103; printf "0 */6 * * * root bash -lc 'u=\$(cut -d. -f1 /proc/uptime); (( u < 1800 )) && exit 0; if pct status %s >/dev/null 2>&1; then /root/nas-manage %s recycle flush; else rm -f /etc/cron.d/nas-recycle; fi' >> /var/log/nas-recycle.log 2>&1\n" "$CTID" "$CTID" > /etc/cron.d/nas-recycle
 ```
 
 #### Every 1 day
 
 ```bash
-printf "0 0 */1 * * root bash -lc 'u=\$(cut -d. -f1 /proc/uptime); (( u < 1800 )) && exit 0; if pct status 103 >/dev/null 2>&1; then /root/nas-manage 103 recycle flush; else rm -f /etc/cron.d/nas-recycle; fi' >> /var/log/nas-recycle.log 2>&1\n" > /etc/cron.d/nas-recycle
+CTID=103; printf "0 0 */1 * * root bash -lc 'u=\$(cut -d. -f1 /proc/uptime); (( u < 1800 )) && exit 0; if pct status %s >/dev/null 2>&1; then /root/nas-manage %s recycle flush; else rm -f /etc/cron.d/nas-recycle; fi' >> /var/log/nas-recycle.log 2>&1\n" "$CTID" "$CTID" > /etc/cron.d/nas-recycle
 ```
 
 #### Every 7 days
 ```bash
-printf "0 0 */7 * * root bash -lc 'u=\$(cut -d. -f1 /proc/uptime); (( u < 1800 )) && exit 0; if pct status 103 >/dev/null 2>&1; then /root/nas-manage 103 recycle flush; else rm -f /etc/cron.d/nas-recycle; fi' >> /var/log/nas-recycle.log 2>&1\n" > /etc/cron.d/nas-recycle
+CTID=103; printf "0 0 */7 * * root bash -lc 'u=\$(cut -d. -f1 /proc/uptime); (( u < 1800 )) && exit 0; if pct status %s >/dev/null 2>&1; then /root/nas-manage %s recycle flush; else rm -f /etc/cron.d/nas-recycle; fi' >> /var/log/nas-recycle.log 2>&1\n" "$CTID" "$CTID" > /etc/cron.d/nas-recycle
 ```
 
 ## Monolithic/Single Dataset Design
