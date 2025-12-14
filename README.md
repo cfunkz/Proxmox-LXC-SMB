@@ -121,7 +121,7 @@ printf "0 */6 * * * root bash -lc '/root/nas-manage 103 recycle flush' >> /var/l
 printf "0 0 */1 * * root bash -lc '/root/nas-manage 103 recycle flush' >> /var/log/nas-recycle.log 2>&1\n" > /etc/cron.d/nas-recycle
 ```
 
-#### Every 7 Days
+#### Every 7 days
 ```bash
 printf "0 0 */7 * * root bash -lc '/root/nas-manage 103 recycle flush' >> /var/log/nas-recycle.log 2>&1\n" > /etc/cron.d/nas-recycle
 ```
