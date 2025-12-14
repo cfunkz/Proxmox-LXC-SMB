@@ -558,6 +558,8 @@ write_smb_conf() {
    server string = Proxmox NAS
    server role = standalone server
    security = user
+   aio read size = 1
+   aio write size = 1
 
    log file = /var/log/samba/log.%m
    max log size = 1000
