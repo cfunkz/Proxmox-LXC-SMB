@@ -102,6 +102,7 @@ chmod +x nas
 
 ### Recycle Bin flush
 The job runs `./nas-manage <CTID> recycle flush` on the Proxmox host automatically, and if the container no longer exists, the cron entry removes itself automatically.
+Change the `CTID=<>` with your container ID running the NAS.
 
 #### Every 30 minutes
 
