@@ -126,11 +126,11 @@ CTID=103; printf "0 0 */1 * * root bash -lc 'u=\$(cut -d. -f1 /proc/uptime); (( 
 CTID=103; printf "0 0 */7 * * root bash -lc 'u=\$(cut -d. -f1 /proc/uptime); (( u < 1800 )) && exit 0; if pct status %s >/dev/null 2>&1; then /root/nas-manage %s recycle flush; else rm -f /etc/cron.d/nas-recycle; fi' >> /var/log/nas-recycle.log 2>&1\n" "$CTID" "$CTID" > /etc/cron.d/nas-recycle
 ```
 
-Then confirm it's ebabled and running:
+Then confirm it's enabled and running:
 ```bash
 cat /etc/cron.d/nas-recycle-test
 ```
-Tail logs:
+Tail live logs:
 ```bash
 tail -n 50 /var/log/nas-recycle.log
 ```
