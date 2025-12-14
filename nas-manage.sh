@@ -9,7 +9,7 @@ set -Eeuo pipefail
 #   smb       : backup | list | restore [file]
 #   snapshot  : create | list | rollback <tag> | remove <tag>
 #
-# Version: 2025-12-13
+# Version: 2025-12-14
 # ==============================================================================
 
 # ---------------- UI -----------------------------------------------------------
@@ -298,7 +298,7 @@ EOF"
       say "Recycle flush scheduled: $cron"
       ;;
 
-    "" )
+    "" | flush )
       # immediate one-off cleanup
       local d
       find_homes_user_recycle_bins | while read -r d; do
