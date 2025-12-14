@@ -73,6 +73,7 @@ A miniature LXC NAS system tested on unprivileged `Debian 12` container using `P
 #   info      : layout, users, quotas (from /etc/nas/state.env)   # Information
 #   smb       : backup | list | restore [file]                    # Config file backup
 #   snapshot  : create | list | rollback <tag> | remove <tag>     # Snapshot management
+#   recycle   : flush  | timer <d/h/m>                            # Recycle Bin flush
 ```
 
 ### Limitations
