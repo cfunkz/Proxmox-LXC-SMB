@@ -101,39 +101,11 @@ chmod +x nas
 ```
 
 ### Recycle Bin flush
-The job runs `./nas-manage <CTID> recycle flush` on the Proxmox host automatically, and if the container no longer exists, the cron entry removes itself automatically.
-Change the `CTID=<>` with your container ID running the NAS.
-
-#### Every 30 minutes
+Run management command `./nas-manage <CTID> recycle timer <d/h/m>` to add automatic flush timer within the LXC container.
 
 ```bash
-CTID=103; printf "*/30 * * * * root bash -lc 'u=\$(cut -d. -f1 /proc/uptime); (( u < 1800 )) && exit 0; if pct status %s >/dev/null 2>&1; then /root/nas-manage %s recycle flush; else rm -f /etc/cron.d/nas-recycle; fi' >> /var/log/nas-recycle.log 2>&1\n" "$CTID" "$CTID" > /etc/cron.d/nas-recycle
-```
-
-#### Every 6 hours
-
-```bash
-CTID=103; printf "0 */6 * * * root bash -lc 'u=\$(cut -d. -f1 /proc/uptime); (( u < 1800 )) && exit 0; if pct status %s >/dev/null 2>&1; then /root/nas-manage %s recycle flush; else rm -f /etc/cron.d/nas-recycle; fi' >> /var/log/nas-recycle.log 2>&1\n" "$CTID" "$CTID" > /etc/cron.d/nas-recycle
-```
-
-#### Every 1 day
-
-```bash
-CTID=103; printf "0 0 */1 * * root bash -lc 'u=\$(cut -d. -f1 /proc/uptime); (( u < 1800 )) && exit 0; if pct status %s >/dev/null 2>&1; then /root/nas-manage %s recycle flush; else rm -f /etc/cron.d/nas-recycle; fi' >> /var/log/nas-recycle.log 2>&1\n" "$CTID" "$CTID" > /etc/cron.d/nas-recycle
-```
-
-#### Every 7 days
-```bash
-CTID=103; printf "0 0 */7 * * root bash -lc 'u=\$(cut -d. -f1 /proc/uptime); (( u < 1800 )) && exit 0; if pct status %s >/dev/null 2>&1; then /root/nas-manage %s recycle flush; else rm -f /etc/cron.d/nas-recycle; fi' >> /var/log/nas-recycle.log 2>&1\n" "$CTID" "$CTID" > /etc/cron.d/nas-recycle
-```
-
-Then confirm it's enabled and running:
-```bash
-cat /etc/cron.d/nas-recycle-test
-```
-Tail live logs:
-```bash
-tail -n 50 /var/log/nas-recycle.log
+# This sets 4 hour cron timer
+./nas-manage 103 recycle timer 4h
 ```
 
 ## Monolithic/Single Dataset Design
